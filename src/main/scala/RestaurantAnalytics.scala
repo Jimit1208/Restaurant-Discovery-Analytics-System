@@ -106,4 +106,26 @@ class RestaurantAnalytics {
         .toFuture()
     )
   }
+    // =====================================
+  // AVERAGE SCORE BY CUISINE
+  // =====================================
+
+  def averageScoreByCuisine(): Seq[Document] = {
+
+    wait(
+      collection
+        .aggregate(
+          Seq(
+            unwind("$grades"),
+            group(
+              "$cuisine",
+              avg("averageScore", "$grades.score"),
+              sum("ratings", 1)
+            ),
+            sort(descending("averageScore"))
+          )
+        )
+        .toFuture()
+    )
+  }
 }

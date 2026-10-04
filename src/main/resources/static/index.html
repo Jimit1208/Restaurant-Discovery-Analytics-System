@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Zaika — Restaurant Discovery and Analytics System"
+    >
+
+    <title>Zaika — Restaurant Discovery</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                Z
+            </div>
+
+            <div>
+                <h1>Zaika</h1>
+
+                <span>
+                    Restaurant Intelligence
+                </span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a
+                href="/"
+                class="nav-item active"
+            >
+                <span>⌂</span>
+                Explore
+            </a>
+
+
+            <a
+                href="/analytics.html"
+                class="nav-item"
+            >
+                <span>◈</span>
+                Analytics
+            </a>
+
+
+            <a
+                href="/indexes.html"
+                class="nav-item"
+            >
+                <span>▦</span>
+                Indexes
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="connection-card">
+
+                <span class="status-dot"></span>
+
+                <div>
+
+                    <strong>
+                        MongoDB Atlas
+                    </strong>
+
+                    <small>
+                        Connected
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <span class="eyebrow">
+                    RESTAURANT DISCOVERY
+                </span>
+
+
+                <h2>
+                    Discover your next
+                    <span>
+                        favorite place.
+                    </span>
+                </h2>
+
+
+                <p>
+                    Search, explore and analyze
+                    restaurants from the official
+                    MongoDB sample_restaurants dataset.
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                onclick="openAddModal()"
+            >
+                + Add Restaurant
+            </button>
+
+        </header>
+
+
+        <!-- =====================================
+             STATISTICS
+        ====================================== -->
+
+        <section class="stats-grid">
+
+            <!-- RESTAURANT COUNT -->
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Restaurants
+                </span>
+
+                <strong id="restaurantCount">
+                    —
+                </strong>
+
+                <small>
+                    sample_restaurants
+                </small>
+
+            </div>
+
+
+            <!-- DATABASE -->
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Database
+                </span>
+
+                <strong>
+                    MongoDB
+                </strong>
+
+                <small>
+                    Atlas cluster
+                </small>
+
+            </div>
+
+
+            <!-- COLLECTION -->
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    Collection
+                </span>
+
+                <strong>
+                    restaurants
+                </strong>
+
+                <small>
+                    MongoDB collection
+                </small>
+
+            </div>
+
+
+            <!-- SYSTEM STATUS -->
+
+            <div class="stat-card">
+
+                <span class="stat-label">
+                    System
+                </span>
+
+                <strong class="online">
+                    Online
+                </strong>
+
+                <small>
+                    Scala backend
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             SEARCH
+        ====================================== -->
+
+        <section class="search-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        EXPLORE
+                    </span>
+
+                    <h3>
+                        Find restaurants
+                    </h3>
+
+                </div>
+
+
+                <span id="resultCount">
+                    0 results
+                </span>
+
+            </div>
+
+
+            <div class="search-panel">
+
+                <!-- NAME -->
+
+                <div class="field">
+
+                    <label>
+                        Restaurant name
+                    </label>
+
+                    <input
+                        id="name"
+                        type="text"
+                        placeholder="Try Riviera..."
+                    >
+
+                </div>
+
+
+                <!-- CUISINE -->
+
+                <div class="field">
+
+                    <label>
+                        Cuisine
+                    </label>
+
+                    <input
+                        id="cuisine"
+                        type="text"
+                        placeholder="American..."
+                    >
+
+                </div>
+
+
+                <!-- BOROUGH -->
+
+                <div class="field">
+
+                    <label>
+                        Borough
+                    </label>
+
+                    <input
+                        id="borough"
+                        type="text"
+                        placeholder="Brooklyn..."
+                    >
+
+                </div>
+
+
+                <!-- ZIP -->
+
+                <div class="field">
+
+                    <label>
+                        ZIP code
+                    </label>
+
+                    <input
+                        id="zipcode"
+                        type="text"
+                        placeholder="11224"
+                    >
+
+                </div>
+
+
+                <!-- SEARCH -->
+
+                <button
+                    class="search-button"
+                    onclick="searchRestaurants()"
+                >
+                    Search
+                </button>
+
+
+                <!-- CLEAR -->
+
+                <button
+                    class="clear-button"
+                    onclick="clearSearch()"
+                >
+                    Clear
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             RESTAURANTS
+        ====================================== -->
+
+        <section class="restaurant-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        DATABASE RECORDS
+                    </span>
+
+                    <h3>
+                        Restaurants
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="restaurantList"
+                class="restaurant-list"
+            >
+
+                <div class="loading">
+                    Loading restaurants...
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================
+     ADD RESTAURANT MODAL
+========================================== -->
+
+<div
+    id="restaurantModal"
+    class="modal hidden"
+>
+
+    <div class="modal-card">
+
+        <!-- MODAL HEADER -->
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    CREATE RECORD
+                </span>
+
+                <h3>
+                    Add restaurant
+                </h3>
+
+            </div>
+
+
+            <button
+                class="close-button"
+                onclick="closeModal()"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form id="restaurantForm">
+
+            <div class="form-grid">
+
+                <!-- NAME -->
+
+                <div class="field">
+
+                    <label>
+                        Restaurant name
+                    </label>
+
+                    <input
+                        id="addName"
+                        type="text"
+                        placeholder="Scala Garden"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- RESTAURANT ID -->
+
+                <div class="field">
+
+                    <label>
+                        Restaurant ID
+                    </label>
+
+                    <input
+                        id="addId"
+                        type="text"
+                        placeholder="SCALA001"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CUISINE -->
+
+                <div class="field">
+
+                    <label>
+                        Cuisine
+                    </label>
+
+                    <input
+                        id="addCuisine"
+                        type="text"
+                        placeholder="Indian"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- BOROUGH -->
+
+                <div class="field">
+
+                    <label>
+                        Borough
+                    </label>
+
+                    <input
+                        id="addBorough"
+                        type="text"
+                        placeholder="Manhattan"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- ZIP -->
+
+                <div class="field">
+
+                    <label>
+                        ZIP code
+                    </label>
+
+                    <input
+                        id="addZipcode"
+                        type="text"
+                        placeholder="10001"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- FORM ACTIONS -->
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="clear-button"
+                    onclick="closeModal()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Create restaurant
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     TOAST NOTIFICATION
+========================================== -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================== -->
+
+<script src="/js/app.js"></script>
+
+</body>
+
+</html>

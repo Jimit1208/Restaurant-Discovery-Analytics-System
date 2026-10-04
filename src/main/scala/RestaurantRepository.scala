@@ -192,4 +192,65 @@ class RestaurantRepository {
         .toFuture()
     )
   }
+
+  // =========================
+  // GET ALL RESTAURANTS
+  // =========================
+
+  def getRestaurants(limit: Int = 50): Seq[Document] = {
+
+    wait(
+      collection
+        .find()
+        .limit(limit)
+        .toFuture()
+    )
+  }
+
+  // =========================
+  // COUNT
+  // =========================
+
+  def countRestaurants(): Long = {
+
+    wait(
+      collection
+        .countDocuments()
+        .toFuture()
+    )
+  }
+
+  // =========================
+  // SEARCH WITH MULTIPLE FILTERS
+  // =========================
+
+  def search(
+      name: Option[String],
+      cuisine: Option[String],
+      borough: Option[String],
+      zipcode: Option[String]
+  ): Seq[Document] = {
+
+    val filters =
+      Seq(
+        name.map(value => regex("name", value, "i")),
+        cuisine.map(value => regex("cuisine", value, "i")),
+        borough.map(value => regex("borough", value, "i")),
+        zipcode.map(value => equal("address.zipcode", value))
+      ).flatten
+
+    val filter =
+      if (filters.isEmpty) {
+        Document()
+      } else {
+        and(filters: _*)
+      }
+
+    wait(
+      collection
+        .find(filter)
+        .limit(100)
+        .toFuture()
+    )
+  }
 }
